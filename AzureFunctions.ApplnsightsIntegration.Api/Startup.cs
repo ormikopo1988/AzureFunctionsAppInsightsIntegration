@@ -1,5 +1,7 @@
-﻿using AzureFunctions.ApplnsightsIntegration.Api.Interfaces;
+﻿using AzureFunctions.ApplnsightsIntegration.Api.ApplicationInsights;
+using AzureFunctions.ApplnsightsIntegration.Api.Interfaces;
 using AzureFunctions.ApplnsightsIntegration.Api.Services;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -12,6 +14,9 @@ namespace AzureFunctions.ApplnsightsIntegration.Api
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
+            // Use telemetry initializers when you want to enrich telemetry with additional information
+            builder.Services.AddSingleton<ITelemetryInitializer, CloudRoleTelemetryInitializer>();
+
             builder.Services.AddStackExchangeRedisCache(options => options.Configuration = Environment.GetEnvironmentVariable("REDISCACHE_CONNECTIONSTRING"));
             builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
         }
