@@ -16,15 +16,14 @@ namespace AzureFunctions.ApplnsightsIntegration.Api.Services
         private readonly TelemetryClient _telemetryClient;
         private readonly ILogger<ResponseCacheService> _logger;
 
-        // Using dependency injection for TelemetryConfiguration will guarantee that you use the same configuration for telemetry collected automatically and manually.
         public ResponseCacheService(
             IDistributedCache distributedCache,
-            TelemetryConfiguration telemetryConfiguration,
+            TelemetryClient telemetryClient,
             ILogger<ResponseCacheService> logger
         )
         {
             _distributedCache = distributedCache;
-            _telemetryClient = new TelemetryClient(telemetryConfiguration);
+            _telemetryClient = telemetryClient;
             _logger = logger;
         }
 
